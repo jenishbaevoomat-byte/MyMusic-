@@ -1,31 +1,17 @@
-name: Build APK
-on:
-  push:
-  workflow_dispatch:
-jobs:
-  build:
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "17"
-      - name: Install system packages
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y git zip unzip autoconf libtool pkg-config \
-            zlib1g-dev libncurses-dev cmake libffi-dev libssl-dev
-      - name: Install buildozer
-        run: |
-          pip install --upgrade pip
-          pip install buildozer cython==0.29.36 setuptools
-      - name: Build APK
-        run: buildozer -v android debug
-      - uses: actions/upload-artifact@v4
-        with:
-          name: apk
-          path: bin/*.apk
+[app]
+title = MyMusic
+package.name = mymusic
+package.domain = org.mymusic
+source.dir = .
+source.include_exts = py,png,jpg,kv
+version = 0.1
+requirements = python3,kivy==2.3.0
+orientation = portrait
+android.permissions = INTERNET
+android.api = 33
+android.minapi = 21
+android.archs = arm64-v8a
+android.accept_sdk_license = True
+
+[buildozer]
+log_level = 2
